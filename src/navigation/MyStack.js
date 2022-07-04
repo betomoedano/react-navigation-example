@@ -22,7 +22,6 @@ const myConfig = {
   // ),
   // cardStyle: { backgroundColor: 'red' },
 };
-
 function CustomHeader({ title }) {
   return (
     <View
