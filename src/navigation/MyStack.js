@@ -1,8 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from '../screens/Home';
+// import Home from '../screens/Home';
 import Settings from '../screens/Settings';
 import { View, Text } from 'react-native';
 import { Colors } from '../constants/colors';
+import MyBottomTab from './MyBottomTab';
 
 const HomeStack = createStackNavigator();
 
@@ -49,9 +50,11 @@ function CustomHeader({ title }) {
 
 export default function MyStack() {
   return (
-    <HomeStack.Navigator screenOptions={myConfig} initialRouteName="Home">
-      <HomeStack.Screen name="Home" component={Home} />
-      <HomeStack.Screen name="Settings" component={Settings} />
+    <HomeStack.Navigator screenOptions={myConfig}>
+      <HomeStack.Screen name="Root" component={MyBottomTab} />
+      <HomeStack.Group>
+        <HomeStack.Screen name="Settings" component={Settings} />
+      </HomeStack.Group>
     </HomeStack.Navigator>
   );
 }
