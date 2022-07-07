@@ -7,6 +7,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../constants/colors';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import MyTopTab from './MyTopTab';
 
 const MyTab = createBottomTabNavigator();
 
@@ -14,15 +15,15 @@ export default function MyBottomTab() {
   const navigation = useNavigation();
   return (
     <MyTab.Navigator
-      initialRouteName="Home"
+      initialRouteName="TopTab"
       screenOptions={{
         tabBarActiveTintColor: Colors.secondary,
         headerTitleAlign: 'center',
       }}
     >
       <MyTab.Screen
-        name="Home"
-        component={Home}
+        name="TopTab"
+        component={MyTopTab}
         options={{
           headerLeft: () => (
             <Pressable onPress={() => navigation.openDrawer()}>
