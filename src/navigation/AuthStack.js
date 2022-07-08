@@ -9,6 +9,7 @@ export default function AuthStack() {
     <Auth.Navigator
       screenOptions={{
         headerShown: false,
+        animationTypeForReplace: 'pop',
       }}
     >
       <Auth.Screen name="Login" component={Login} />
