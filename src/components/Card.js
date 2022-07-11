@@ -7,7 +7,8 @@ export default function Card() {
   const { userToken } = useSelector(state => state.auth);
 
   function doSomething() {
-    console.log('do something');
+    console.log('1');
+    console.log('2');
   }
 
   return (
