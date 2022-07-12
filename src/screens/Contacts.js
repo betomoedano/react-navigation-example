@@ -17,7 +17,7 @@ export default function Contacts() {
     setContacts(contacts.map(c => (c.id === contact.id ? contact : c)));
   }
   return (
-    <View style={globalStyles.screenContainer}>
+    <View>
       <Text style={globalStyles.title}>Contacts</Text>
       <AddContact onAddContact={handleAddContact} />
       <ContactLists
