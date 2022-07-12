@@ -33,6 +33,7 @@ export default function ContactLists({
 function Contact({ contact, onChange, onDelete }) {
   const [isEditing, setIsEditing] = React.useState(false);
   let contactContent;
+  // we use useMemo to avoid re-rendering the photo component
   const memoPhoto = React.useMemo(() => getRandomPhoto(), []);
 
   if (isEditing) {
@@ -47,7 +48,7 @@ function Contact({ contact, onChange, onDelete }) {
   } else {
     contactContent = (
       <View style={styles.row}>
-        <Text>{contact.name}</Text>
+        <Text style={styles.name}>{contact.name}</Text>
       </View>
     );
   }
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 10,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: Colors.gray,
   },
   image: {
@@ -88,5 +89,10 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  name: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: Colors.dark,
   },
 });
