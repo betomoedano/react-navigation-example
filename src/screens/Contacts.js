@@ -16,6 +16,7 @@ export default function Contacts() {
   function handleChangeContact(contact) {
     setContacts(contacts.map(c => (c.id === contact.id ? contact : c)));
   }
+
   return (
     <View style={globalStyles.simpleContainer}>
       <AddContact onAddContact={handleAddContact} />

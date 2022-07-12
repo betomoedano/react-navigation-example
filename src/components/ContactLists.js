@@ -6,10 +6,12 @@ import {
   Text,
   StyleSheet,
   Image,
+  Pressable,
 } from 'react-native';
 import { Colors } from '../constants/colors';
 import MyInput from './MyInput';
 import { getRandomPhoto } from '../utils/randomPhoto';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function ContactLists({
   contacts,
@@ -62,9 +64,18 @@ function Contact({ contact, onChange, onDelete }) {
         {isEditing ? (
           <Button title="Save" onPress={() => setIsEditing(false)} />
         ) : (
-          <Button title="Edit" onPress={() => setIsEditing(true)} />
+          <Pressable onPress={() => setIsEditing(true)}>
+            <FontAwesome
+              name="edit"
+              size={24}
+              color={Colors.secondary}
+              style={{ marginRight: 15, marginTop: 5 }}
+            />
+          </Pressable>
         )}
-        <Button title="Delete" onPress={() => onDelete(contact.id)} />
+        <Pressable onPress={() => onDelete(contact.id)}>
+          <FontAwesome name="trash" size={24} color={Colors.secondary} />
+        </Pressable>
       </View>
     </View>
   );
