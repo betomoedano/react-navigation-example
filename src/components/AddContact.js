@@ -3,12 +3,12 @@ import { Button, StyleSheet, View } from 'react-native';
 import { Colors } from '../constants/colors';
 import MyInput from './MyInput';
 
-export default function AddContact({ onAddTask }) {
+export default function AddContact({ onAddContact }) {
   const [name, setName] = React.useState('');
 
   function handleAdd() {
     setName('');
-    onTaskAdded(name);
+    onAddContact(name);
   }
 
   return (
