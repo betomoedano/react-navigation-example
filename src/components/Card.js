@@ -14,7 +14,10 @@ export default function Card() {
   return (
     <View style={styles.card}>
       <View style={styles.row}>
-        <Image source={require('../../assets/memoji.png')} style={styles.img} />
+        <Image
+          source={require('../../assets/memojis/11.png')}
+          style={styles.img}
+        />
         <Text style={styles.name}>{userToken}</Text>
       </View>
       <MyButton title={'Add Friend'} onPress={doSomething} />
