@@ -1,3 +1,45 @@
+import * as React from 'react';
+
+// using useReducer and createContext to manage the state of the contacts
+const initialState = [
+  { id: 0, name: 'Sara Lee' },
+  { id: 1, name: 'John Doe' },
+  { id: 2, name: 'Jack Doe' },
+];
+let nextId = 3;
+
+const contactsStore = React.createContext(initialState);
+const { Provider } = contactsStore;
+
+function ContactsProvider({ children }) {
+  const [contacts, dispatch] = React.useReducer(contactReducer, initialState);
+
+  function handleAddContact(name) {
+    dispatch({ type: 'ADD', id: nextId++, name });
+  }
+  function handleDeleteContact(id) {
+    dispatch({ type: 'DELETE', id });
+  }
+  function handleChangeContact(contact) {
+    dispatch({ type: 'CHANGE', contact });
+  }
+
+  return (
+    <Provider
+      value={{
+        contacts,
+        handleAddContact,
+        handleDeleteContact,
+        handleChangeContact,
+      }}
+    >
+      {children}
+    </Provider>
+  );
+}
+
+export { ContactsProvider, contactsStore };
+
 // using switch statements to manage the state of the contacts
 // convention
 

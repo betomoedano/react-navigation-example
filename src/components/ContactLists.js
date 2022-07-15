@@ -12,27 +12,46 @@ import { Colors } from '../constants/colors';
 import MyInput from './MyInput';
 import { getRandomPhoto } from '../utils/randomPhoto';
 import { FontAwesome } from '@expo/vector-icons';
+import { contactsStore } from '../reducers/contactReducer';
 
-export default function ContactLists({
-  contacts,
-  onChangeContact,
-  onDeleteContact,
-}) {
+// using context
+export default function ContactLists() {
+  const { contacts } = React.useContext(contactsStore);
+
   return (
     <ScrollView>
       {contacts.map((contact, index) => (
-        <Contact
-          key={index}
-          contact={contact}
-          onChange={onChangeContact}
-          onDelete={onDeleteContact}
-        />
+        <Contact key={index} contact={contact} />
       ))}
     </ScrollView>
   );
 }
 
-function Contact({ contact, onChange, onDelete }) {
+// using props
+// export default function ContactLists({
+//   contacts,
+//   onChangeContact,
+//   onDeleteContact,
+// }) {
+//   return (
+//     <ScrollView>
+//       {contacts.map((contact, index) => (
+//         <Contact
+//           key={index}
+//           contact={contact}
+//           onChange={onChangeContact}
+//           onDelete={onDeleteContact}
+//         />
+//       ))}
+//     </ScrollView>
+//   );
+// }
+
+// using context
+
+function Contact({ contact }) {
+  const { handleChangeContact, handleDeleteContact } =
+    React.useContext(contactsStore);
   const [isEditing, setIsEditing] = React.useState(false);
   let contactContent;
   // we use useMemo to avoid re-rendering the photo component
@@ -43,7 +62,7 @@ function Contact({ contact, onChange, onDelete }) {
       <View>
         <MyInput
           value={contact.name}
-          onChangeText={text => onChange({ ...contact, name: text })}
+          onChangeText={text => handleChangeContact({ ...contact, name: text })}
         />
       </View>
     );
@@ -73,13 +92,63 @@ function Contact({ contact, onChange, onDelete }) {
             />
           </Pressable>
         )}
-        <Pressable onPress={() => onDelete(contact.id)}>
+        <Pressable onPress={() => handleDeleteContact(contact.id)}>
           <FontAwesome name="trash" size={24} color={Colors.secondary} />
         </Pressable>
       </View>
     </View>
   );
 }
+
+// using props
+// function Contact({ contact, onChange, onDelete }) {
+//   const [isEditing, setIsEditing] = React.useState(false);
+//   let contactContent;
+//   // we use useMemo to avoid re-rendering the photo component
+//   const memoPhoto = React.useMemo(() => getRandomPhoto(), []);
+
+//   if (isEditing) {
+//     contactContent = (
+//       <View>
+//         <MyInput
+//           value={contact.name}
+//           onChangeText={text => onChange({ ...contact, name: text })}
+//         />
+//       </View>
+//     );
+//   } else {
+//     contactContent = (
+//       <View style={styles.row}>
+//         <Text style={styles.name}>{contact.name}</Text>
+//       </View>
+//     );
+//   }
+//   return (
+//     <View style={styles.contactContainer}>
+//       <View style={styles.row}>
+//         <Image source={memoPhoto} style={styles.image} />
+//         {contactContent}
+//       </View>
+//       <View style={styles.row}>
+//         {isEditing ? (
+//           <Button title="Save" onPress={() => setIsEditing(false)} />
+//         ) : (
+//           <Pressable onPress={() => setIsEditing(true)}>
+//             <FontAwesome
+//               name="edit"
+//               size={24}
+//               color={Colors.secondary}
+//               style={{ marginRight: 15, marginTop: 5 }}
+//             />
+//           </Pressable>
+//         )}
+//         <Pressable onPress={() => onDelete(contact.id)}>
+//           <FontAwesome name="trash" size={24} color={Colors.secondary} />
+//         </Pressable>
+//       </View>
+//     </View>
+//   );
+// }
 
 const styles = StyleSheet.create({
   contactContainer: {
