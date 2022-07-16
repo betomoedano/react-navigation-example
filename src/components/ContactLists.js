@@ -13,16 +13,19 @@ import MyInput from './MyInput';
 import { getRandomPhoto } from '../utils/randomPhoto';
 import { FontAwesome } from '@expo/vector-icons';
 import { contactsStore } from '../reducers/contactReducer';
+import { globalStyles } from '../styles/global';
 
 // using context
 export default function ContactLists() {
   const { contacts } = React.useContext(contactsStore);
 
+  if (contacts.length === 0)
+    return <Text style={globalStyles.title}>You don't have any contacts!</Text>;
   return (
     <ScrollView>
-      {contacts.map((contact, index) => (
-        <Contact key={index} contact={contact} />
-      ))}
+      {contacts.map(
+        (contact, index) => contact && <Contact key={index} contact={contact} />
+      )}
     </ScrollView>
   );
 }
