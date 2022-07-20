@@ -4,6 +4,7 @@ import Settings from '../screens/Settings';
 import { View, Text } from 'react-native';
 import { Colors } from '../constants/colors';
 import MyBottomTab from './MyBottomTab';
+import Oboarding from '../screens/Onboarding';
 
 const HomeStack = createStackNavigator();
 
@@ -49,13 +50,18 @@ function CustomHeader({ title }) {
 
 export default function MyStack() {
   return (
-    <HomeStack.Navigator screenOptions={myConfig}>
+    <HomeStack.Navigator initialRouteName="Home" screenOptions={myConfig}>
       <HomeStack.Screen name="Root" component={MyBottomTab} />
       <HomeStack.Group screenOptions={{ headerShown: true }}>
         <HomeStack.Screen
           name="Settings"
           component={Settings}
           options={{ headerBackTitle: 'Home' }}
+        />
+        <HomeStack.Screen
+          name="Onboarding"
+          component={Oboarding}
+          options={{ headerShown: false }}
         />
       </HomeStack.Group>
     </HomeStack.Navigator>
