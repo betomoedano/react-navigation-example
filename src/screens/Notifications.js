@@ -18,7 +18,7 @@ function reducer(state, { type, title, body, to }) {
 
 export default function Notifications() {
   const [state, dispatch] = React.useReducer(reducer, {
-    to: 'ExponentPushToken[wEwPfoG9NWPgxkTgG7EqSc]',
+    to: '',
     sound: 'default',
     title: '',
     body: '',
@@ -47,10 +47,7 @@ export default function Notifications() {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        to: [
-          'ExponentPushToken[wEwPfoG9NWPgxkTgG7EqSc]',
-          'ExponentPushToken[MhyJl7EuALj51XWxK7GM5y]',
-        ],
+        to: ['', ''],
         title: 'Nuevo Curso!',
         body: 'Aprovecha el descuento!',
       }),
