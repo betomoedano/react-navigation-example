@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { restoreToken } from '../features/auth/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Splash from '../screens/Splash';
+import * as Notifications from 'expo-notifications';
 
 export default function RootNavigator() {
   const { userToken, isLoading } = useSelector(state => state.auth);
@@ -14,6 +15,15 @@ export default function RootNavigator() {
   React.useEffect(() => {
     getValue();
   }, []);
+
+  // React.useEffect(() => {
+  //   const subscription = Notifications.addNotificationResponseReceivedListener(
+  //     response => {
+  //       console.log('Notification Response Received: ', response);
+  //     }
+  //   );
+  //   return () => subscription.remove();
+  // }, []);
 
   async function getValue() {
     try {

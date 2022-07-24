@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { globalStyles } from '../styles/global';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,9 +12,20 @@ import MyButton from '../components/MyButton';
 export default function Home() {
   const navigator = useNavigation();
   const [date, setDate] = React.useState(new Date());
+  const [notificationType, setNotificationType] = React.useState('default');
 
   React.useEffect(() => {
     checkFistLaunch();
+  }, []);
+
+  React.useEffect(() => {
+    const subscription = Notification.addNotificationResponseReceivedListener(
+      response => {
+        console.log('Notification Response Received: ', response);
+        setNotificationType(response.notification.request.content.title);
+      }
+    );
+    return () => subscription.remove();
   }, []);
 
   async function handleNotification() {
@@ -53,6 +64,7 @@ export default function Home() {
 
   return (
     <View style={globalStyles.screenContainer}>
+      <Text style={globalStyles.title}>{notificationType}</Text>
       <DateTimePicker
         value={date}
         style={{ width: '25%' }}
