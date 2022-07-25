@@ -7,23 +7,48 @@ import { restoreToken } from '../features/auth/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Splash from '../screens/Splash';
 import * as Notifications from 'expo-notifications';
+import { useNavigation } from '@react-navigation/native';
 
-export default function RootNavigator() {
+export default function Wrapper() {
+  return (
+    <NavigationContainer>
+      <RootNavigator />
+    </NavigationContainer>
+  );
+}
+
+function RootNavigator() {
   const { userToken, isLoading } = useSelector(state => state.auth);
+  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     getValue();
   }, []);
 
-  // React.useEffect(() => {
-  //   const subscription = Notifications.addNotificationResponseReceivedListener(
-  //     response => {
-  //       console.log('Notification Response Received: ', response);
-  //     }
-  //   );
-  //   return () => subscription.remove();
-  // }, []);
+  React.useEffect(() => {
+    const subscription = Notifications.addNotificationResponseReceivedListener(
+      response => {
+        console.log('Notification Response Received: ', response);
+        const toRoute = response.notification.request.content.data.route;
+        const data = response.notification.request.content.data;
+        switch (toRoute) {
+          case 'Settings': {
+            navigation.navigate('Settings', data);
+            break;
+          }
+          case 'notifications': {
+            navigation.navigate('notifications', data);
+            break;
+          }
+          default: {
+            break;
+          }
+        }
+      }
+    );
+    return () => subscription.remove();
+  }, []);
 
   async function getValue() {
     try {
@@ -44,9 +69,5 @@ export default function RootNavigator() {
   if (isLoading) {
     return <Splash />;
   }
-  return (
-    <NavigationContainer>
-      {userToken ? <MyDrawer /> : <AuthStack />}
-    </NavigationContainer>
-  );
+  return <>{userToken ? <MyDrawer /> : <AuthStack />}</>;
 }

@@ -21,7 +21,7 @@ export default function Home() {
   React.useEffect(() => {
     const subscription = Notification.addNotificationResponseReceivedListener(
       response => {
-        console.log('Notification Response Received: ', response);
+        // console.log('Notification Response Received: ', response);
         setNotificationType(response.notification.request.content.title);
       }
     );
