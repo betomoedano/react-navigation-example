@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Text, View } from 'react-native';
-import MyButton from '../../components/MyButton';
-import MyInput from '../../components/MyInput';
+import { Button, Text, View } from 'react-native';
+import MyButton from '../MyButton';
+import MyInput from '../MyInput';
 import { globalStyles } from '../../styles/global';
 import { useDispatch } from 'react-redux';
+import { setAuthState } from '../../features/auth/auth';
 import { signIn } from '../../features/auth/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Login({ navigation }) {
+export default function Login({ onLogin, setEmail, setPassword }) {
   const [token, setToken] = useState('');
   const dispatch = useDispatch();
 
@@ -24,10 +25,13 @@ export default function Login({ navigation }) {
   return (
     <View style={globalStyles.screenContainer}>
       <Text style={globalStyles.title}>Login</Text>
-      <MyInput onChangeText={setToken} value={token} label="Email" />
-      <MyInput label="Password" secureTextEntry />
-      <MyButton title="Login" onPress={() => save(token)} />
-      <MyButton title="Sign Up" onPress={() => navigation.navigate('SignUp')} />
+      <MyInput onChangeText={setEmail} label="Email" />
+      <MyInput label="Password" secureTextEntry onChangeText={setPassword} />
+      <MyButton title="Login" onPress={onLogin} />
+      <Button
+        title="Sign Up"
+        onPress={() => dispatch(setAuthState('signUp'))}
+      />
     </View>
   );
 }

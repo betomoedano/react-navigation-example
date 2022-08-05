@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Splash from '../screens/Splash';
 import * as Notifications from 'expo-notifications';
 import { useNavigation } from '@react-navigation/native';
+import { auth } from '../firebaseConfig';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function Wrapper() {
   return (
@@ -18,13 +20,26 @@ export default function Wrapper() {
 }
 
 function RootNavigator() {
-  const { userToken, isLoading } = useSelector(state => state.auth);
+  const { userToken } = useSelector(state => state.auth);
+  const [isLoading, setIsLoading] = React.useState(true);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    getValue();
+    const unsubscribeAuth = onAuthStateChanged(auth, async user => {
+      if (user) {
+        dispatch(restoreToken(user.email));
+      } else {
+        console.log('user is not authenticated');
+      }
+      setIsLoading(false);
+    });
+    return unsubscribeAuth;
   }, []);
+
+  // React.useEffect(() => {
+  //   getValue();
+  // }, []);
 
   React.useEffect(() => {
     const subscription = Notifications.addNotificationResponseReceivedListener(
