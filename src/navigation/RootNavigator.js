@@ -10,6 +10,7 @@ import * as Notifications from 'expo-notifications';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebaseConfig';
 import { onAuthStateChanged } from 'firebase/auth';
+import { setUser } from '../features/user/user';
 
 export default function Wrapper() {
   return (
@@ -28,6 +29,14 @@ function RootNavigator() {
   React.useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, async user => {
       if (user) {
+        const userToSave = {
+          id: user.uid,
+          name: user.displayName,
+          email: user.email,
+          photoUrl: user.photoURL,
+          createdAt: user.metadata.creationTime,
+        };
+        dispatch(setUser(userToSave));
         dispatch(restoreToken(user.email));
       } else {
         console.log('user is not authenticated');

@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setAuthState } from '../../features/auth/auth';
 import { signIn } from '../../features/auth/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import GoogleSignInButton from './GoogleSignIn';
 
 export default function Login({ onLogin, setEmail, setPassword }) {
   const [token, setToken] = useState('');
@@ -32,6 +33,7 @@ export default function Login({ onLogin, setEmail, setPassword }) {
         title="Sign Up"
         onPress={() => dispatch(setAuthState('signUp'))}
       />
+      <GoogleSignInButton />
     </View>
   );
 }

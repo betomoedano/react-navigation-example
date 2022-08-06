@@ -5,6 +5,7 @@ import MyButton from './MyButton';
 
 export default function Card() {
   const { userToken } = useSelector(state => state.auth);
+  const user = useSelector(state => state.user);
 
   function doSomething() {
     console.log('1');
@@ -14,12 +15,12 @@ export default function Card() {
   return (
     <View style={styles.card}>
       <View style={styles.row}>
-        <Image
-          source={require('../../assets/memojis/11.png')}
-          style={styles.img}
-        />
-        <Text style={styles.name}>{userToken}</Text>
+        <Image source={{ uri: user.photoUrl }} style={styles.img} />
       </View>
+      <Text style={styles.name}>{user.id}</Text>
+      <Text style={styles.name}>{user.name}</Text>
+      <Text style={styles.name}>{userToken}</Text>
+      <Text style={styles.name}>{user.createdAt}</Text>
       <MyButton title={'Add Friend'} onPress={doSomething} />
     </View>
   );
@@ -38,14 +39,16 @@ const styles = StyleSheet.create({
   img: {
     width: 100,
     height: 100,
+    borderRadius: 50,
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   name: {
-    fontSize: 20,
+    fontSize: 14,
     fontWeight: 'bold',
     marginLeft: 10,
+    flexShrink: 1,
   },
 });
