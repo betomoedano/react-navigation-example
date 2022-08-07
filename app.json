@@ -18,17 +18,20 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "usesAppleSignIn": true,
+      "bundleIdentifier": "com.betomoedano.navigationexample"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.betomoedano.navigationexample"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "myapp" 
+    "scheme": "myapp"
   }
 }

@@ -9,6 +9,7 @@ import { signIn } from '../../features/auth/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GoogleSignInButton from './GoogleSignIn';
 import FacebookSignInButton from './FacebookSignIn';
+import AppleLoginButton from './AppleSignInButton';
 
 export default function Login({ onLogin, setEmail, setPassword }) {
   const [token, setToken] = useState('');
@@ -36,6 +37,7 @@ export default function Login({ onLogin, setEmail, setPassword }) {
       />
       <GoogleSignInButton />
       <FacebookSignInButton />
+      <AppleLoginButton />
     </View>
   );
 }
