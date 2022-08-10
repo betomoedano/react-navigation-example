@@ -6,6 +6,7 @@ const initialState = {
   email: null,
   photoUrl: null,
   createdAt: null,
+  todos: [],
 };
 
 const userSlice = createSlice({
@@ -19,8 +20,17 @@ const userSlice = createSlice({
       state.photoUrl = action.payload.photoUrl;
       state.createdAt = action.payload.createdAt;
     },
+    addTodo: (state, action) => {
+      state.todos.push(action.payload);
+    },
+    deleteTodo: (state, action) => {
+      state.todos = state.todos.filter(todo => todo.id !== action.payload);
+    },
+    setTodos: (state, action) => {
+      state.todos = action.payload;
+    },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, addTodo, deleteTodo, setTodos } = userSlice.actions;
 export default userSlice.reducer;

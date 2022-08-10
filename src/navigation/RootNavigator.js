@@ -10,7 +10,9 @@ import * as Notifications from 'expo-notifications';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebaseConfig';
 import { onAuthStateChanged } from 'firebase/auth';
-import { setUser } from '../features/user/user';
+import { setTodos, setUser } from '../features/user/user';
+import { db } from '../firebaseConfig';
+import { collection, addDoc, setDoc, doc, getDoc } from 'firebase/firestore';
 
 export default function Wrapper() {
   return (
@@ -36,6 +38,9 @@ function RootNavigator() {
           photoUrl: user.photoURL,
           createdAt: user.metadata.creationTime,
         };
+        getUserFromDatabase(userToSave);
+        const todos = await getTodosFromDatabase(user.uid);
+        dispatch(setTodos(todos));
         dispatch(setUser(userToSave));
         dispatch(restoreToken(user.email));
       } else {
@@ -45,10 +50,6 @@ function RootNavigator() {
     });
     return unsubscribeAuth;
   }, []);
-
-  // React.useEffect(() => {
-  //   getValue();
-  // }, []);
 
   React.useEffect(() => {
     const subscription = Notifications.addNotificationResponseReceivedListener(
@@ -73,6 +74,30 @@ function RootNavigator() {
     );
     return () => subscription.remove();
   }, []);
+
+  function saveUserToDatabase(user) {
+    const userRef = collection(db, 'users');
+    addDoc(userRef, user);
+    console.log('user saved to database');
+  }
+
+  async function getUserFromDatabase(user) {
+    const userRef = doc(db, 'users', user.id);
+    if (userRef) {
+      return;
+    }
+    await setDoc(userRef, user);
+    console.log('User already in database');
+  }
+
+  async function getTodosFromDatabase(userId) {
+    const userRef = await getDoc(doc(db, 'users', userId));
+    if (userRef.data().todos) {
+      return userRef.data().todos;
+    } else {
+      return [];
+    }
+  }
 
   async function getValue() {
     try {

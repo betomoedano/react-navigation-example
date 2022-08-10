@@ -8,6 +8,7 @@ import { Colors } from '../constants/colors';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MyTopTab from './MyTopTab';
+import Todos from '../screens/Todos';
 
 const MyTab = createBottomTabNavigator();
 
@@ -56,6 +57,15 @@ export default function MyBottomTab() {
         component={MyStack}
         options={{ headerShown: false }}
       /> */}
+      <MyTab.Screen
+        name="Todos"
+        component={Todos}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="check" size={28} color={color} />
+          ),
+        }}
+      />
       <MyTab.Screen
         name="Profile"
         component={Profile}

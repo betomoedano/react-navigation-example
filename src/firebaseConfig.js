@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 //import {...} from "firebase/database";
 //import {...} from "firebase/firestore";
 //import {...} from "firebase/functions";
@@ -14,7 +15,7 @@ const firebaseConfig = {
   messagingSenderId: '',
   appId: '',
 };
-
 // Initialize Firebase
 initializeApp(firebaseConfig);
 export const auth = getAuth();
+export const db = getFirestore();
